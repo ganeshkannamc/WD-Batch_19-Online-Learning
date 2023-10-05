@@ -1,36 +1,77 @@
-import PrintName from './PrintName'
+import { useState } from "react";
 
-function App() {
-  let person = { name: "ganeh", last: "kanna", age: 21, mobile: 78654367 };
-  let color = ["red", "blue", "black", "green","balck","white"];
+const App = () => {
+  let [count, setCount] = useState(0);
 
-  let fullName = () => {
-    return person.name + person.last;
-  };
-  // First class function -> if a functionn take one or more function as argument
-  // JSX - JavaScript XML
+  let [color, setColor] = useState("red");
+
+  let [hide, setHide] = useState(true);
+
+  let [nameList, setNameList] = useState([]);
+
+  function handleInc() {
+    setCount(count + 1);
+  }
+
+  function handleDec() {
+    setCount(count - 1);
+  }
+
+  function handleColorChange(eve) {
+    setColor(eve.target.value);
+  }
+
+  function handleAddColor() {
+    setNameList((curVal) => [...curVal, color]);
+  }
+
   return (
-    <div className="App">
-      <h1>
-        {person.name == "ganesh"
-          ? `the name is ${person.name}`
-          : "the naem is som thing"}{" "}
+    <div>
+      <button onClick={handleDec}>-</button>
+      <h1>{count}</h1>
+      <button onClick={handleInc}>+</button>
+      <input type="text" value={color} onChange={handleColorChange} />
+      <h1
+        style={{
+          border: "1px solid black",
+          backgroundColor: color,
+        }}
+      >
+        {color}
       </h1>
-      <p> {person.age} </p>
-      <p> {person.mobile} </p>
-      <p> {fullName()} </p>
-      {/* {color.map((itm) => (
-        <h1>{itm}</h1>
-      ))} */}
-      <PrintName name={color} />
-      <PrintName name={color} />
-      <PrintName name={color} />
-      <PrintName name={color} />
-      <PrintName name={color} />
-      <PrintName name={color} />
+      <button onClick={handleAddColor}>Add color to the list</button>
+      {/* <h1 style={{ display: hide ? "block" : "none" }}>Personal info</h1> */}
+      {hide && nameList.map((itm) => <h1>{itm}</h1>)}
+
+      {/* {hide && (
+        <button
+          onClick={() => {
+            setHide(false);
+          }}
+        >
+          Hide
+        </button>
+      )}
+
+      {!hide && (
+        <button
+          onClick={() => {
+            setHide(true);
+          }}
+        >
+          Unhide
+        </button>
+      )} */}
+
+      <button
+        onClick={() => {
+          setHide(!hide);
+        }}
+      >
+        {hide ? "Hide" : "Unhide"}
+      </button>
     </div>
   );
-}
-
+};
 
 export default App;
